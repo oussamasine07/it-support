@@ -37,6 +37,7 @@ public class Ticket {
     )
     private Set<Material> materials = new HashSet<>();
 
+
     public void setId(Long id) {
         this.id = id;
     }
