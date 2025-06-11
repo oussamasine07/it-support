@@ -17,25 +17,14 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "employer_id")
-    private Employee employee;
-
-    @ManyToOne
-    @JoinColumn(name = "technician_id")
-    private Technician technician;
 
     @ManyToOne
     @JoinColumn(name = "breakdown_id")
     private BreakDown breakDown;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ticket_material",
-            joinColumns = @JoinColumn(name = "ticket_id"),
-            inverseJoinColumns = @JoinColumn(name = "material_id")
-    )
-    private Set<Material> materials = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "material_id")
+    private Material material;
 
 
     public void setId(Long id) {
