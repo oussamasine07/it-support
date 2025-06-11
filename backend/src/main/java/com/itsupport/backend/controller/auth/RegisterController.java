@@ -24,7 +24,7 @@ public class RegisterController {
 
     @PostMapping
     public User register ( RegisterDTO registerDTO ) {
-        return userService.registerUser(registerDTO);
+        return userService.registerUser( registerDTO );
     }
 
 }
