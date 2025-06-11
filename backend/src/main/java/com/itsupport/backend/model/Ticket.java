@@ -2,15 +2,18 @@ package com.itsupport.backend.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Ticket {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "description", nullable = false)
     private String description ;
+
+    @Column(name = "image", nullable = false)
     private String image;
 
     @Column(name = "status", nullable = false)
@@ -57,5 +60,21 @@ public class Ticket {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public BreakDown getBreakDown() {
+        return breakDown;
+    }
+
+    public void setBreakDown(BreakDown breakDown) {
+        this.breakDown = breakDown;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 }

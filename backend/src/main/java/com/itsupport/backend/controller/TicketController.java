@@ -1,8 +1,9 @@
 package com.itsupport.backend.controller;
 
+import com.itsupport.backend.dto.TicketDTO;
 import com.itsupport.backend.model.Ticket;
 import com.itsupport.backend.service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class TicketController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticket){
-        return ticketService.createTicket(ticket);
+    public Ticket createTicket(@Valid @RequestBody TicketDTO ticketDTO){
+        return ticketService.createTicket(ticketDTO);
     }
 
     @PreAuthorize("hasAuthority('TECHNICIAN')")
