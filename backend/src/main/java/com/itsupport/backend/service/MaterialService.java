@@ -30,8 +30,8 @@ public class MaterialService {
         return materialRepository.findById(id);
     }
 
-//    public Material createNewMaterial(MaterialDTO material, String token) {
-//
-//        //check if user is admin
-//    }
+      public Material createNewMaterial(MaterialDTO material, String token) {
+
+  //check if user is admin
+   }
 }
