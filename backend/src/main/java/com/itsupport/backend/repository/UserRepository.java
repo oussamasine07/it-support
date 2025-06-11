@@ -1,7 +1,10 @@
 package com.itsupport.backend.repository;
 
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserRepository {
+import com.itsupport.backend.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    public User findUserByEmail(String email);
 }
