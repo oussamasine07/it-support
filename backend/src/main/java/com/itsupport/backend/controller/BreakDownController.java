@@ -3,7 +3,7 @@ package com.itsupport.backend.controller;
 import com.itsupport.backend.dto.BreakdownDTO;
 import com.itsupport.backend.model.BreakDown;
 import com.itsupport.backend.security.ServiceBreakDown;
-import com.itsupport.backend.service.BreakDownService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,24 +14,45 @@ import java.util.List;
 @CrossOrigin
 public class BreakDownController {
 
-    private final BreakDownService breakDownService;
     private final ServiceBreakDown serviceBreakDown;
 
-    public BreakDownController(BreakDownService breakDownService, ServiceBreakDown serviceBreakDown) {
-        this.breakDownService = breakDownService;
+    public BreakDownController(ServiceBreakDown serviceBreakDown) {
         this.serviceBreakDown = serviceBreakDown;
     }
 
-    //ajouter une panne
+    // ✅ Ajouter une panne
     @PostMapping
-    public ResponseEntity<BreakDown> addBreakDown(@RequestBody BreakdownDTO breakdownDTO) {
-        BreakDown created = serviceBreakDown.addBreakDown(breakdownDTO);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<BreakDown> createBreakdown(@RequestBody @Valid BreakdownDTO breakdownDTO) {
+        BreakDown saved = serviceBreakDown.addBreakDown(breakdownDTO);
+        return ResponseEntity.ok(saved);
     }
-    //Lister touter touter les pannes
-    @GetMapping("/{id}")
-    public ResponseEntity<List<BreakDown>> getBreakDownById(@PathVariable("id") String id) {
+
+    // ✅ Lister toutes les pannes
+    @GetMapping
+    public ResponseEntity<List<BreakDown>> getAllBreakdowns() {
         return ResponseEntity.ok(serviceBreakDown.ListyAllBreakDown());
     }
 
+    // ✅ Afficher une panne par ID
+    @GetMapping("/{id}")
+    public ResponseEntity<BreakDown> getBreakdownById(@PathVariable int id) {
+        return serviceBreakDown.showBreakDown(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // ✅ Modifier une panne
+    @PutMapping("/{id}")
+    public ResponseEntity<BreakDown> updateBreakdown(@PathVariable int id, @RequestBody @Valid BreakdownDTO breakdownDTO) {
+        return serviceBreakDown.updateBreakDown(id, breakdownDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // ✅ Supprimer une panne
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBreakdown(@PathVariable int id) {
+        serviceBreakDown.deleteBreakDown(id);
+        return ResponseEntity.noContent().build();
+    }
 }
