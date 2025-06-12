@@ -49,6 +49,14 @@ public class ServiceBreakDown {
     public Optional<BreakDown> showBreakDown(int id) {
         return breakDownRepository.findById(id);
     }
+    // ✅ Modifier une panne
+    public Optional<BreakDown> updateBreakDown(int id, BreakdownDTO dto) {
+        return breakDownRepository.findById(id).map(breakDown -> {
+            breakDown.setName(dto.name());
+            return breakDownRepository.save(breakDown);
+        });
+    }
+
 
 
 }
