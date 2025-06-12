@@ -7,6 +7,7 @@ import com.itsupport.backend.model.User;
 import com.itsupport.backend.repository.MaterialRepository;
 import com.itsupport.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,62 +36,37 @@ public class MaterialService {
         return materialRepository.findById(id);
     }
 
-      public Material createNewMaterial(MaterialDTO material, String token) {
+    public Material createNewMaterial(MaterialDTO material, String token) {
 
-        String userNameFromToken = jwtService.extarctUsername(token.substring(7));
 
-        //get user
 
-          User user = userRepository.getUserByUsernameOrEmail(userNameFromToken);
+        Material newMaterial = new Material();
 
-  //check if user is admin
-        if (user.getRole() == Role.ADMIN) {
-            Material newMaterial = new Material();
+        newMaterial.setName(material.name());
+        newMaterial.setDescription(material.description());
+        newMaterial.setImage(material.imageUrl());
 
-            newMaterial.setName(material.name());
-            newMaterial.setDescription(material.description());
-            newMaterial.setImage(material.imageUrl());
+        return materialRepository.save(newMaterial);
 
-            return materialRepository.save(newMaterial);
-        }else{
-            System.out.println("unauthoriezed action");
-            throw new Error("unauthoriezed action");
-        }
    }
 
    public Material updateMaterial(long id, MaterialDTO material, String token) {
 
-        String userNameFromToken = jwtService.extarctUsername(token.substring(7));
 
-        User user = userRepository.getUserByUsernameOrEmail(userNameFromToken);
 
-       if (user.getRole() == Role.ADMIN) {
-           Material newMaterial = materialRepository.findById(id).orElseThrow();
+       Material updatedMaterial = materialRepository.findById(id).orElseThrow();
 
-           newMaterial.setName(material.name());
-           newMaterial.setDescription(material.description());
-           newMaterial.setImage(material.imageUrl());
+       updatedMaterial.setName(material.name());
+       updatedMaterial.setDescription(material.description());
+       updatedMaterial.setImage(material.imageUrl());
 
-           return materialRepository.save(newMaterial);
-       }else{
-           System.out.println("unauthoriezed action");
-           throw new Error("unauthoriezed action");
-       }
+       return materialRepository.save(updatedMaterial);
+
    }
 
    public void deleteMaterial(long id, String token) {
-        //get signin user
-        String userNameFromToken = jwtService.extarctUsername(token.substring(7));
 
-        //get user
-       User user = userRepository.getUserByUsernameOrEmail(userNameFromToken);
-
-       if (user.getRole() == Role.ADMIN) {
-           materialRepository.deleteById(id);
-       }else {
-           System.out.println("unauthoriezed action");
-           throw new Error("unauthoriezed action");
-       }
+        materialRepository.deleteById(id);
 
    }
 }
