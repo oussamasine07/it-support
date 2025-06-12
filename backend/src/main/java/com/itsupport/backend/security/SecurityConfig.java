@@ -42,13 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // Allow all OPTIONS requests for CORS preflight
                         .requestMatchers(
-                                "/user/register",
                                 "/user/login"
                         )
-                        .permitAll()// Allow anonymous access for these endpoints
-                        .requestMatchers(HttpMethod.GET, "/events")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/events/**")
                         .permitAll()
                         .anyRequest().authenticated()  // Other requests need auth
                 )
