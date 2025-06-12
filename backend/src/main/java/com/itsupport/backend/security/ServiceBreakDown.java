@@ -2,11 +2,8 @@ package com.itsupport.backend.security;
 
 import com.itsupport.backend.dto.BreakdownDTO;
 import com.itsupport.backend.model.BreakDown;
-import com.itsupport.backend.repository.BreakDownRepo;
-import org.hibernate.dialect.SpannerDialect;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

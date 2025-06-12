@@ -26,19 +26,15 @@ public class ServiceBreakDown {
     public BreakDown addBreakDown(BreakdownDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // Récupère le nom d'utilisateur du token
-
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
         BreakDown breakDown = new BreakDown();
-        breakDown.setTitle(dto.getTitle());
-        breakDown.setDescription(dto.getDescription());
-        breakDown.setStatus(dto.getStatus());
-        breakDown.setCreatedAt(dto.getCreatedAt());
-        breakDown.setUser(user); // lie la panne à l'utilisateur connecté
+        breakDown.setName(dto.name());
+
 
         return breakDownRepository.save(breakDown);
     }
 
-}
 
+}
