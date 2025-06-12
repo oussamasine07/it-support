@@ -9,12 +9,16 @@ import jakarta.validation.constraints.NotNull;
 public record TicketDTO(
         @NotBlank(message = "Description is required")
         String description,
-        @NotBlank(message = "Image is required")
+
         String image,
+
         @NotNull(message = "Status is required")
         Status status,
         @NotNull(message = "BreakDown is required")
-        BreakDown breakDown,
+        String breakDown,
         @NotNull(message = "Material is required")
-        Material material
+        int material_id
+
+
+
 ) {}

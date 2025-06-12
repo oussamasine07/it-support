@@ -31,6 +31,10 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
+
     public User () {}
 
     public Long getId() {
@@ -63,5 +67,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }

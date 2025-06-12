@@ -2,6 +2,8 @@ package com.itsupport.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 public class Ticket {
@@ -28,6 +30,15 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "material_id")
     private Material material;
+
+    @OneToOne
+    @JoinColumn(name = "Assigned_to")
+    private User user;
+
+    @OneToMany
+    @JoinColumn(name = "ticket_id")
+    private List<User> users;
+
 
 
     public void setId(Long id) {
@@ -76,5 +87,21 @@ public class Ticket {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
