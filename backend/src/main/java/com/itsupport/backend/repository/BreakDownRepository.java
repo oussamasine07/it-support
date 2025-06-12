@@ -11,4 +11,5 @@ public interface BreakDownRepository extends JpaRepository<BreakDown, Integer> {
     List<BreakDown> findByUser(User user);
     Optional<User> findByUsername(String username);
 
+    List<BreakDown> user(com.itsupport.backend.model.User user);
 }

@@ -22,7 +22,7 @@ public class ServiceBreakDown {
         this.userRepository = userRepository;
     }
 
-    // ✅ Ajouter une panne
+    // Ajouter une panne
     public BreakDown addBreakDown(BreakdownDTO dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // Récupère le nom d'utilisateur du token
@@ -34,6 +34,20 @@ public class ServiceBreakDown {
 
 
         return breakDownRepository.save(breakDown);
+    }
+
+    //  Lister les pannes de l'utilisateur connecté
+    public List<BreakDown> ListyAllBreakDown() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        return breakDownRepository.findByUser(user);
+    }
+
+    // Voir une panne
+    public Optional<BreakDown> showBreakDown(int id) {
+        return breakDownRepository.findById(id);
     }
 
 
