@@ -8,6 +8,9 @@ import jdk.jfr.DataAmount;
 
 
 public class BreakDown {
+    @ManyToOne
+    @JoinColumn( name = "users")
+    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
