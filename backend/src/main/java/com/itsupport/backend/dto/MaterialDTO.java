@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record MaterialDTO(
         Long id,
+        String imageUrl,
         @NotBlank(message = "name is required")
         String name,
 
@@ -12,6 +13,8 @@ public record MaterialDTO(
 
         @NotBlank(message = "type is required")
         String type
+
+
 
 ) {
 }
