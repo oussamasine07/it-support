@@ -3,9 +3,9 @@ package com.itsupport.backend.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public record BreakdownDTO(
-        int id,
 
-        @NotBlank(message = "name is required")
+
+        @NotBlank(message = "Le nom est requis")
         String name
 
 ) {

@@ -2,7 +2,7 @@ package com.itsupport.backend.controller;
 
 import com.itsupport.backend.dto.BreakdownDTO;
 import com.itsupport.backend.model.BreakDown;
-import com.itsupport.backend.security.ServiceBreakDown;
+import com.itsupport.backend.service.BreakDownService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +14,13 @@ import java.util.List;
 @CrossOrigin
 public class BreakDownController {
 
-    private final ServiceBreakDown serviceBreakDown;
+    private final BreakDownService serviceBreakDown;
 
-    public BreakDownController(ServiceBreakDown serviceBreakDown) {
+    public BreakDownController(BreakDownService serviceBreakDown) {
         this.serviceBreakDown = serviceBreakDown;
     }
 
-    // ✅ Ajouter une panne
+    // Ajouter une panne
     @PostMapping
     public ResponseEntity<BreakDown> createBreakdown(@RequestBody @Valid BreakdownDTO breakdownDTO) {
         BreakDown saved = serviceBreakDown.addBreakDown(breakdownDTO);
