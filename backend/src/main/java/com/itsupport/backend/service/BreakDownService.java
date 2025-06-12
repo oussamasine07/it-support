@@ -1,65 +1,50 @@
 package com.itsupport.backend.service;
+
+
 import com.itsupport.backend.dto.BreakdownDTO;
 import com.itsupport.backend.model.BreakDown;
-import com.itsupport.backend.model.User;
 import com.itsupport.backend.repository.BreakDownRepository;
-import com.itsupport.backend.repository.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServiceBreakDown {
+public class BreakDownService {
 
     private final BreakDownRepository breakDownRepository;
-    private final UserRepository userRepository;
 
-    public ServiceBreakDown(BreakDownRepository breakDownRepository, UserRepository userRepository) {
+    public BreakDownService(BreakDownRepository breakDownRepository) {
         this.breakDownRepository = breakDownRepository;
-        this.userRepository = userRepository;
     }
 
     // Ajouter une panne
     public BreakDown addBreakDown(BreakdownDTO dto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Récupère le nom d'utilisateur du token
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-
         BreakDown breakDown = new BreakDown();
         breakDown.setName(dto.name());
-
-
         return breakDownRepository.save(breakDown);
     }
 
-    //  Lister les pannes de l'utilisateur connecté
+    // Lister toutes les pannes
     public List<BreakDown> ListyAllBreakDown() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-        return breakDownRepository.findByUser(user);
+        return breakDownRepository.findAll();
     }
 
-    // Voir une panne
+    //  Afficher une panne par ID
     public Optional<BreakDown> showBreakDown(int id) {
         return breakDownRepository.findById(id);
     }
-    // Modifier une panne
+
+    //  Modifier une panne
     public Optional<BreakDown> updateBreakDown(int id, BreakdownDTO dto) {
         return breakDownRepository.findById(id).map(breakDown -> {
             breakDown.setName(dto.name());
             return breakDownRepository.save(breakDown);
         });
     }
+
     // Supprimer une panne
     public void deleteBreakDown(int id) {
         breakDownRepository.deleteById(id);
     }
-
-
 }
