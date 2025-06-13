@@ -2,6 +2,8 @@ package com.itsupport.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -31,9 +33,12 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "assignedToTechnician")
+    private List<Ticket> assignedTickets;
+
+    @OneToMany(mappedBy = "createdByEmployee")
+    private List<Ticket> createdTickets;
+
 
     public User () {}
 
@@ -69,11 +74,19 @@ public class User {
         this.role = role;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    public List<Ticket> getAssignedTickets() {
+        return assignedTickets;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setAssignedTickets(List<Ticket> assignedTickets) {
+        this.assignedTickets = assignedTickets;
+    }
+
+    public List<Ticket> getCreatedTickets() {
+        return createdTickets;
+    }
+
+    public void setCreatedTickets(List<Ticket> createdTickets) {
+        this.createdTickets = createdTickets;
     }
 }

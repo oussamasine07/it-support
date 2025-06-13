@@ -8,15 +8,16 @@ import jdk.jfr.DataAmount;
 
 
 public class BreakDown {
-    @ManyToOne
-    @JoinColumn( name = "users")
-    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "nom", nullable = false)
     private String name;
+
+    @OneToOne(mappedBy = "breakDown")
+    private Ticket ticket;
 
     public int getId() {
         return id;

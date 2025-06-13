@@ -15,15 +15,25 @@ public class Ticket {
     @Column(name = "description", nullable = false)
     private String description ;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image", nullable = true)
     private String image;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "custom_breakdown", nullable = true)
+    private String customBreakdown;
 
-    @ManyToOne
+    public String getCustomBreakdown() {
+        return customBreakdown;
+    }
+
+    public void setCustomBreakdown(String customBreakdown) {
+        this.customBreakdown = customBreakdown;
+    }
+
+    @OneToOne
     @JoinColumn(name = "breakdown_id")
     private BreakDown breakDown;
 
@@ -31,15 +41,27 @@ public class Ticket {
     @JoinColumn(name = "material_id")
     private Material material;
 
-    @OneToOne
-    @JoinColumn(name = "Assigned_to")
-    private User user;
+    @ManyToOne
+    private User assignedToTechnician;
 
-    @OneToMany
-    @JoinColumn(name = "ticket_id")
-    private List<User> users;
+    @ManyToOne
+    private User createdByEmployee;
 
+    public User getAssignedToTechnician() {
+        return assignedToTechnician;
+    }
 
+    public void setAssignedToTechnician(User assignedToTechnician) {
+        this.assignedToTechnician = assignedToTechnician;
+    }
+
+    public User getCreatedByEmployee() {
+        return createdByEmployee;
+    }
+
+    public void setCreatedByEmployee(User createdByEmployee) {
+        this.createdByEmployee = createdByEmployee;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -89,19 +111,5 @@ public class Ticket {
         this.material = material;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

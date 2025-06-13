@@ -3,6 +3,8 @@ package com.itsupport.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "materials")
 
@@ -19,6 +21,17 @@ public class Material {
 
     @Column(name = "image", nullable = true)
     private String image;
+
+    @OneToMany(mappedBy = "material")
+    private List<Ticket> tickets;
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 
     public Material() {}
 

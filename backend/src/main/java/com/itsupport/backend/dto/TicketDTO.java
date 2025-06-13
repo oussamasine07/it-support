@@ -15,9 +15,9 @@ public record TicketDTO(
         @NotNull(message = "Status is required")
         Status status,
         @NotNull(message = "BreakDown is required")
-        String breakDown,
+        String breakdown_id,
         @NotNull(message = "Material is required")
-        int material_id
+        Long material_id
 
 
 
