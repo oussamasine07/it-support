@@ -1,6 +1,7 @@
 package com.itsupport.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class Material {
     private String image;
 
     @OneToMany(mappedBy = "material")
+    @JsonIgnore
     private List<Ticket> tickets;
 
     public List<Ticket> getTickets() {

@@ -4,10 +4,14 @@ import com.itsupport.backend.dto.TicketDTO;
 import com.itsupport.backend.model.BreakDown;
 import com.itsupport.backend.model.Material;
 import com.itsupport.backend.model.Ticket;
+import com.itsupport.backend.model.User;
 import com.itsupport.backend.repository.BreakDownRepository;
 import com.itsupport.backend.repository.MaterialRepository;
 import com.itsupport.backend.repository.TicketRepository;
+import com.itsupport.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,16 +21,18 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final BreakDownRepository breakDownRepository;
     private final MaterialRepository materialRepository;
+    private final UserRepository userRepository;
 
 
     public TicketService(
             final TicketRepository ticketRepository,
             final BreakDownRepository breakDownRepository,
-            final MaterialRepository materialRepository
+            final MaterialRepository materialRepository, UserRepository userRepository
     ) {
         this.ticketRepository = ticketRepository;
         this.breakDownRepository = breakDownRepository;
         this.materialRepository = materialRepository;
+        this.userRepository = userRepository;
     }
 
     //create ticket
@@ -43,6 +49,8 @@ public class TicketService {
         Material material = materialRepository.findById(ticketDTO.material_id()).orElseThrow();
 
         // todo get auth user and add it to created by
+// get the auth user
+        User user = getAuthenticatedUser();
 
         Ticket ticket = new Ticket();
         ticket.setDescription(ticketDTO.description());
@@ -50,10 +58,16 @@ public class TicketService {
         ticket.setStatus(ticketDTO.status());
         ticket.setBreakDown(breakDown);
         ticket.setMaterial(material);
+        ticket.setCreatedByEmployee(user);
 
         return ticketRepository.save(ticket);
     }
 
+    private User getAuthenticatedUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
     //view all tickets
     public List<Ticket> getAllTickets(){

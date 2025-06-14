@@ -33,7 +33,8 @@ public class Ticket {
         this.customBreakdown = customBreakdown;
     }
 
-    @OneToOne
+    // AFTER (This is the correct code)
+    @ManyToOne
     @JoinColumn(name = "breakdown_id")
     private BreakDown breakDown;
 

@@ -3,6 +3,8 @@ package com.itsupport.backend.model;
 import jakarta.persistence.*;
 import jdk.jfr.DataAmount;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Breakdowns")
 
@@ -16,8 +18,8 @@ public class BreakDown {
     @Column(name = "nom", nullable = false)
     private String name;
 
-    @OneToOne(mappedBy = "breakDown")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "breakDown")
+    private List<Ticket> tickets;
 
     public int getId() {
         return id;

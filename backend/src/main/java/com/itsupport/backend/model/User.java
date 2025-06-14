@@ -1,5 +1,6 @@
 package com.itsupport.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -34,9 +35,11 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "assignedToTechnician")
+    @JsonIgnore
     private List<Ticket> assignedTickets;
 
     @OneToMany(mappedBy = "createdByEmployee")
+    @JsonIgnore
     private List<Ticket> createdTickets;
 
 
