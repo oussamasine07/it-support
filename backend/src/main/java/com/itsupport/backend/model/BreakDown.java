@@ -3,20 +3,23 @@ package com.itsupport.backend.model;
 import jakarta.persistence.*;
 import jdk.jfr.DataAmount;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Breakdowns")
 
 
 public class BreakDown {
-    @ManyToOne
-    @JoinColumn( name = "users")
-    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "nom", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "breakDown")
+    private List<Ticket> tickets;
 
     public int getId() {
         return id;

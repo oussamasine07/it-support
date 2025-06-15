@@ -1,6 +1,9 @@
 package com.itsupport.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,9 +34,14 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "assignedToTechnician")
+    @JsonIgnore
+    private List<Ticket> assignedTickets;
+
+    @OneToMany(mappedBy = "createdByEmployee")
+    @JsonIgnore
+    private List<Ticket> createdTickets;
+
 
     public User () {}
 
@@ -69,11 +77,19 @@ public class User {
         this.role = role;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    public List<Ticket> getAssignedTickets() {
+        return assignedTickets;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setAssignedTickets(List<Ticket> assignedTickets) {
+        this.assignedTickets = assignedTickets;
+    }
+
+    public List<Ticket> getCreatedTickets() {
+        return createdTickets;
+    }
+
+    public void setCreatedTickets(List<Ticket> createdTickets) {
+        this.createdTickets = createdTickets;
     }
 }
